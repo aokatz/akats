@@ -6,8 +6,7 @@ package ru.job4j;
  * @version 1
  * @since 21.12.17
  */
-public class Calculate
-{
+public class Calculate {
 	/**
 	* Method echo.
 	* @param name Your name.
@@ -21,8 +20,7 @@ public class Calculate
 	* Вывод на консоль
 	* @param args аргументы командной строки
 	*/
-	public static void main(String[] args)	
-	{
+	public static void main(String[] args)	{
 		System.out.println("Hello World");
 	}
 }
