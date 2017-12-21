@@ -9,6 +9,15 @@ package ru.job4j;
 public class Calculate
 {
 	/**
+	* Method echo.
+	* @param name Your name.
+	* @return Echo plus your name.
+	*/
+	public String echo(String name) {
+		return "Echo, echo, echo : " + name;
+	}
+ 
+	/**
 	* Вывод на консоль
 	* @param args аргументы командной строки
 	*/
