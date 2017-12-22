@@ -17,4 +17,13 @@ public class MaxTest {
         Max maxumum = new Max();
         assertThat(maxumum.max(1, 2), is(2));
     }
+
+    /**
+     * Test max of three numbers
+     */
+    @Test
+    public void maxOfThree() {
+        Max maxumum = new Max();
+        assertThat(maxumum.max(1, 2, 3), is(3));
+    }
 }
