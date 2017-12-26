@@ -10,7 +10,7 @@ public class TurnTest {
     public void whenTurnArrayWithEvenAmountOfElementsThenTurnedArray() {
         //напишите здесь тест, проверяющий переворот массива с чётным числом элементов, например {2, 6, 1, 4}.
         int[] test = {2, 6, 1, 4};
-        int[] result = {4, 6, 1, 4};
+        int[] result = {4, 1, 6, 2};
         assertThat(new Turn().back(test), is(result));
     }
 

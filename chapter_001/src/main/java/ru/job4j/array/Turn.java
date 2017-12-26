@@ -11,9 +11,8 @@ public class Turn {
      * @return - перевернутый массив.
      */
     public int[] back(int[] array) {
-        int swich = 0;
         for (int i = 0; i < array.length / 2; i++) {
-            swich = array[i];
+            int swich = array[i];
             array[i] = array[array.length - i - 1];
             array[array.length - i - 1] = swich;
         }
