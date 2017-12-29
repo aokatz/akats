@@ -16,21 +16,19 @@ public class ContainsString {
     public static boolean contains(String origin, String sub) {
         char[] originArray = origin.toCharArray();
         char[] subArray = sub.toCharArray();
+        boolean res = false;
         for (int i = 0; i < originArray.length; i++) {
-            //находим первый элемент
-            if (originArray[0] != subArray[0]) {
-                while (++i < originArray.length && originArray[i] != subArray[0]);
-            }
-            //нашли первый, посмотрим остальные
-            if (i < originArray.length) {
-                int j = i + 1;
-                int end = j + subArray.length - 1;
-                for (int k = 1; j < end && originArray[j] == subArray[k]; j++, k++);
-
-                if (j == end) {
-                    //нашли всю строку
-                    return true;
+            if (originArray[i] == subArray[0]) {
+                res = true;
+                for (int j = 0; j < subArray.length; j++) {
+                    if (originArray[i + j] != subArray[j]) {
+                        res = false;
+                        break;
+                    }
                 }
+            }
+            if (res) {
+                return true;
             }
         }
         return false;
