@@ -13,14 +13,13 @@ public class ArrayDuplicate {
      * @return - новый массисв без дубликатов
      */
     public String[] remove(String[] array) {
-        String swap;
         int dublicateCount = 0;
         int uniqLength = array.length;
         for (int i = 0; i < uniqLength - 1; i++) {
             for (int j = i + 1; j < uniqLength; j++) {
-                if (array[i] == array[j])  {
+                if (array[i].equals(array[j]))  {
                     for (int k = j; k < uniqLength - 1; k++) {
-                        swap = array[k];
+                        String swap = array[k];
                         array[k] = array[k + 1];
                         array[k + 1] = swap;
                     }
