@@ -28,9 +28,9 @@ public class ContainsString {
                 }
             }
             if (res) {
-                return true;
+                break;
             }
         }
-        return false;
+        return res;
     }
 }
