@@ -1,5 +1,10 @@
 package ru.job4j.tracker;
 
+import ru.job4j.tracker.models.Item;
+
+import java.util.Arrays;
+import java.util.Random;
+
 /**
  * Класс обработчик заявок
  * @author AKats
@@ -7,13 +12,14 @@ package ru.job4j.tracker;
 public class Tracker {
     private final Item[] items = new Item[100];
     private int position = 0;
+    private static final Random RN = new Random();
 
     /**
      * Генерирование Id заявки.
      * @return id заявки
      */
     private String generateId() {
-        return Integer.toString(this.position);
+        return Integer.toString(RN.nextInt());
     }
 
     /**
@@ -22,15 +28,15 @@ public class Tracker {
      * @return - элемент с этим id
      */
     protected Item findById(String id) {
+        Item result = new Item();
         for (Item item : this.items
              ) {
-            if (item != null) {
-                if (id.equals(item.getId())) {
-                    return item;
-                }
+            if (item != null && item.getId().equals(id)) {
+                result = item;
+                break;
             }
         }
-        return null;
+        return result;
     }
 
     /**
@@ -76,7 +82,9 @@ public class Tracker {
      * @return массив всех заявок
      */
     public Item[] findAll() {
-        return this.items;
+        return Arrays.stream(this.items)
+                .filter(item -> item != null)
+                .toArray(Item[]::new);
     }
 
     /**
@@ -89,10 +97,8 @@ public class Tracker {
         int i = 0;
         for (Item item : this.items
                 ) {
-            if (item != null) {
-                if (name.equals(item.getName())) {
+            if (item != null && name.equals(item.getName())) {
                     resItems[i++] = item;
-                }
             }
         }
         return resItems;

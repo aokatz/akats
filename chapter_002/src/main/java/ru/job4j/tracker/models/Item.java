@@ -1,4 +1,4 @@
-package ru.job4j.tracker;
+package ru.job4j.tracker.models;
 
 /**
  * Класс Заявка
@@ -11,6 +11,10 @@ public class Item {
     private long created;
     private String[] comments;
 
+    public Item() {
+
+    }
+
     public Item(String name, String description, long created) {
         this.name = name;
         this.description = description;
@@ -18,7 +22,7 @@ public class Item {
     }
 
     public String getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(String id) {
