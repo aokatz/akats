@@ -1,8 +1,6 @@
 package ru.job4j.tracker.start;
 
 import ru.job4j.tracker.models.Item;
-
-import javax.sound.midi.Soundbank;
 import java.util.Arrays;
 
 public class StartUI {
@@ -189,7 +187,7 @@ public class StartUI {
     }
 
     /**
-     * Запускт программы.
+     * Запуск программы.
      *
      * @param args
      */
