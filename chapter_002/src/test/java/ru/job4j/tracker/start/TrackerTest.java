@@ -1,7 +1,8 @@
-package ru.job4j.tracker;
+package ru.job4j.tracker.start;
 
 import org.junit.Test;
 import ru.job4j.tracker.models.Item;
+import ru.job4j.tracker.start.Tracker;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
@@ -73,9 +74,7 @@ public class TrackerTest {
         tracker.add(first);
         tracker.add(second);
         tracker.add(third);
-        Item[] result = new Item[100];
-        result[0] = first;
-        result[1] = second;
+        Item[] result = {first, second};
         assertThat(tracker.findByName("test"), is(result));
     }
     /**

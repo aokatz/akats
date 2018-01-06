@@ -1,7 +1,10 @@
 package ru.job4j.tracker.models;
 
+import java.util.Arrays;
+
 /**
  * Класс Заявка
+ *
  * @author AKats
  */
 public class Item {
@@ -19,6 +22,11 @@ public class Item {
         this.name = name;
         this.description = description;
         this.created = created;
+    }
+
+    public Item(String name, String desc) {
+        this.name = name;
+        this.description = desc;
     }
 
     public String getId() {
@@ -59,5 +67,15 @@ public class Item {
 
     public void setComments(String[] comments) {
         this.comments = comments;
+    }
+
+    @Override
+    public String toString() {
+        String newLine = System.getProperty("line.separator");
+        return newLine+ "id: " + this.getId() + newLine +
+                "name: " + this.getName() + newLine +
+                "description: " + this.getDescription() + newLine +
+                "created: " + this.getCreated() + newLine +
+                "comments: " + Arrays.toString(this.getComments()) + newLine;
     }
 }
