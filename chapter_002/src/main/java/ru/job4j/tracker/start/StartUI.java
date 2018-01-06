@@ -86,6 +86,8 @@ public class StartUI {
                 case EXIT:
                     exit = true;
                     break;
+                default: 
+                    break;
             }
         }
     }
@@ -116,19 +118,19 @@ public class StartUI {
      */
     private void editItem() {
         System.out.println("------------ Редактирование заявки --------------");
-        String ItemId = this.input.ask("Введите Id заявки для редактирования");
-        Item editedItem = this.tracker.findById(ItemId);
+        String itemId = this.input.ask("Введите Id заявки для редактирования");
+        Item editedItem = this.tracker.findById(itemId);
         if (editedItem != null) {
             System.out.println("Редактируем заявку: " + editedItem);
             String name = this.input.ask("Введите новое имя заявки :");
             String desc = this.input.ask("Введите новое описание заявки :");
             Item item = new Item(name, desc);
             item.setId(editedItem.getId());
-            this.tracker.replace(ItemId, item);
-            System.out.println("------------ Заявка с Id : " + ItemId + " обновлена-----------");
-            System.out.println(this.tracker.findById(ItemId));
+            this.tracker.replace(itemId, item);
+            System.out.println("------------ Заявка с Id : " + itemId + " обновлена-----------");
+            System.out.println(this.tracker.findById(itemId));
         } else {
-            System.out.println("------------ Заявка с Id : " + ItemId + " не найдена-----------");
+            System.out.println("------------ Заявка с Id : " + itemId + " не найдена-----------");
         }
     }
 

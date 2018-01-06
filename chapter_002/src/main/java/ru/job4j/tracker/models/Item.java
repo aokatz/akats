@@ -72,10 +72,10 @@ public class Item {
     @Override
     public String toString() {
         String newLine = System.getProperty("line.separator");
-        return newLine+ "id: " + this.getId() + newLine +
-                "name: " + this.getName() + newLine +
-                "description: " + this.getDescription() + newLine +
-                "created: " + this.getCreated() + newLine +
-                "comments: " + Arrays.toString(this.getComments()) + newLine;
+        return newLine + "id: " + this.getId() + newLine
+                + "name: " + this.getName() + newLine
+                + "description: " + this.getDescription() + newLine
+                + "created: " + this.getCreated() + newLine
+                + "comments: " + Arrays.toString(this.getComments()) + newLine;
     }
 }
