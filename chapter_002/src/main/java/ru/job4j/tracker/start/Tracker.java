@@ -13,16 +13,6 @@ import java.util.Random;
 public class Tracker {
     private final Item[] items = new Item[100];
     private int position = 0;
-    private static final Random RN = new Random();
-
-    /**
-     * Генерирование Id заявки.
-     *
-     * @return id заявки
-     */
-    private String generateId() {
-        return Integer.toString(RN.nextInt());
-    }
 
     /**
      * Поиск элемента по ID
@@ -51,7 +41,7 @@ public class Tracker {
      * @return - добавленный элемент
      */
     public Item add(Item item) {
-        item.setId(generateId());
+        item.setId(String.valueOf(position));
         this.items[this.position++] = item;
         return item;
     }
