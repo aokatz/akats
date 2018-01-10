@@ -1,5 +1,9 @@
 package ru.job4j.tracker.start;
 
+/**
+ * Класс автоматического ввода даннах (из массива с ответами)
+ * @author AKats
+ */
 public class StubInput implements Input {
     private String[] answers;
     private int position = 0;

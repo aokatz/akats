@@ -3,6 +3,10 @@ package ru.job4j.tracker.start;
 import java.util.Arrays;
 import java.util.Scanner;
 
+/**
+ * Класс ввода даннах из консоли
+ * @author AKats
+ */
 public class ConsoleInput implements Input {
 
     @Override

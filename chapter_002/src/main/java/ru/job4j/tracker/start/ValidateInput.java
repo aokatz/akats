@@ -1,15 +1,28 @@
 package ru.job4j.tracker.start;
 
-import java.util.Arrays;
+/**
+ * Класс обертка поверх классов с интерфейсовм Input c валидацией введенных данных.
+ */
+public class ValidateInput implements Input {
 
-public class ValidateInput extends ConsoleInput {
+    private final Input input;
 
+    public ValidateInput(Input input) {
+        this.input = input;
+    }
+
+    @Override
+    public String ask(String question) {
+        return this.input.ask(question);
+    }
+
+    @Override
     public int ask(String question, int[] allowedRange) {
         boolean invalid = true;
         int result = -1;
         do {
             try {
-                result = super.ask(question, allowedRange);
+                result = this.input.ask(question, allowedRange);
                 invalid = false;
             } catch (MenuOutException moe) {
                 System.out.println("Введите номер существующего пункта меню.");
