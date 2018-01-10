@@ -28,7 +28,9 @@ class ShowAllItems implements UserAction {
 public class MenuTracker {
     private Input input;
     private Tracker tracker;
-    private UserAction[] actions = new UserAction[6];
+    private UserAction[] actions = new UserAction[7];
+    private int[] allowedRange = {0, 1, 2, 3, 4, 5, 6};
+    private boolean exitProgramFlag = false;
 
     public MenuTracker(Input input, Tracker tracker) {
         this.input = input;
@@ -46,6 +48,7 @@ public class MenuTracker {
         this.actions[3] = new DeleteItem();
         this.actions[4] = new FindItemById();
         this.actions[5] = new FindItemByName();
+        this.actions[6] = new ExitProgram();
     }
 
     /**
@@ -60,21 +63,30 @@ public class MenuTracker {
      * Вывод меню и обработка деействий пользователя
      * @return - true при выходе пользователя из меню
      */
-    public boolean showMenuExecAction() {
-        boolean res = false;
-        System.out.println("Меню:");
-        for (UserAction action: actions
-             ) {
-            System.out.println(action.getActionTitle());
-        }
-        System.out.println("6. Exit Program");
-        String answer = this.input.ask("Введите пункт меню : ");
-        if (Integer.valueOf(answer) >= 0 && Integer.valueOf(answer) <= 5) {
+    public void showMenuExecAction() {
+        do {
+            System.out.println("Меню:");
+            for (UserAction action : actions
+                    ) {
+                System.out.println(action.getActionTitle());
+            }
+            int answer = this.input.ask("Введите пункт меню : ", this.allowedRange);
             this.executeAction(Integer.valueOf(answer));
-        } else {
-            res = true;
+        } while (!exitProgramFlag);
+    }
+    /**
+     * Класс обработки события выхода
+     */
+    private class ExitProgram implements UserAction {
+        @Override
+        public void executeSelectedAction(Input input, Tracker tracker) {
+            exitProgramFlag = true;
         }
-        return res;
+
+        @Override
+        public String getActionTitle() {
+            return "6. Exit Program";
+        }
     }
 
     /**

@@ -12,4 +12,9 @@ public class StubInput implements Input {
     public String ask(String question) {
         return this.answers[position++];
     }
+
+    @Override
+    public int ask(String question, int[] allowedRange) {
+        return Integer.valueOf(this.answers[position++]);
+    }
 }

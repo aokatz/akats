@@ -30,11 +30,7 @@ public class StartUI {
      * Основой цикл программы.
      */
     public void init() {
-        boolean exit = false;
-        MenuTracker menu = new MenuTracker(this.input, this.tracker);
-        while (!exit) {
-            exit = menu.showMenuExecAction();
-        }
+        new MenuTracker(this.input, this.tracker).showMenuExecAction();        
     }
 
 
@@ -44,6 +40,6 @@ public class StartUI {
      * @param args
      */
     public static void main(String[] args) {
-        new StartUI(new ConsoleInput(), new Tracker()).init();
+        new StartUI(new ValidateInput(), new Tracker()).init();
     }
 }
