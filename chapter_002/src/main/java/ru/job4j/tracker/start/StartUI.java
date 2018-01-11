@@ -30,7 +30,12 @@ public class StartUI {
      * Основой цикл программы.
      */
     public void init() {
-        new MenuTracker(this.input, this.tracker).showMenuExecAction();        
+        MenuTracker menuTracker = new MenuTracker(this.input, this.tracker);
+        do {
+            menuTracker.showMenu();
+            menuTracker.execAction();
+        } while (!menuTracker.isExitProgramm());
+
     }
 
 

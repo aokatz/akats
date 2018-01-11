@@ -7,22 +7,22 @@ import java.util.Arrays;
 /**
  * Класс отображения всех жлементов
  */
-class ShowAllItems implements UserAction {
+class ShowAllItems extends BaseAction {
+    public ShowAllItems(String name) {
+        super(name);
+    }
+
     @Override
     public void executeSelectedAction(Input input, Tracker tracker) {
         System.out.println("------------ Отображение всех заявок --------------");
         Arrays.stream(tracker.findAll()).forEach(System.out::println);
         System.out.println("-----------------------");
     }
-
-    @Override
-    public String getActionTitle() {
-        return "1. Show all items";
-    }
 }
 
 /**
  * Класс вывода и работы с меню
+ *
  * @author AKats
  */
 public class MenuTracker {
@@ -38,21 +38,27 @@ public class MenuTracker {
         initMenu();
     }
 
+    public boolean isExitProgramm() {
+        return this.exitProgramFlag;
+    }
+
     /**
      * Заполнение массива действий пользователяшо объектами-действиями внутренних классов
      */
     private void initMenu() {
-        this.actions[0] = this.new AddNewItem();
-        this.actions[1] = new ShowAllItems();
-        this.actions[2] = new MenuTracker.EditItem();
-        this.actions[3] = new DeleteItem();
-        this.actions[4] = new FindItemById();
-        this.actions[5] = new FindItemByName();
-        this.actions[6] = new ExitProgram();
+        this.actions[0] = this.new AddNewItem("0. Add new Item");
+        this.actions[1] = new ShowAllItems("1. Show all items");
+        this.actions[2] = new MenuTracker.EditItem("2. Edit item");
+        this.actions[3] = new DeleteItem("3. Delete item");
+        this.actions[4] = new FindItemById("4. Find item by Id");
+        this.actions[5] = new FindItemByName("5. Find items by name");
+        this.actions[6] = new ExitProgram("6. Exit Program");
     }
+
 
     /**
      * Выполнение действия объекта в массиве объектов-действий
+     *
      * @param actionKey - ключь в массиве объектов-действий
      */
     private void executeAction(int actionKey) {
@@ -60,39 +66,51 @@ public class MenuTracker {
     }
 
     /**
-     * Вывод меню и обработка деействий пользователя
+     * Вывод меню
+     *
      * @return - true при выходе пользователя из меню
      */
-    public void showMenuExecAction() {
-        do {
-            System.out.println("Меню:");
-            for (UserAction action : actions
-                    ) {
-                System.out.println(action.getActionTitle());
-            }
-            int answer = this.input.ask("Введите пункт меню : ", this.allowedRange);
-            this.executeAction(Integer.valueOf(answer));
-        } while (!exitProgramFlag);
+    public void showMenu() {
+        System.out.println("Меню:");
+        for (UserAction action : actions) {
+            System.out.println(action.getActionTitle());
+        }
     }
+
+    /**
+     * Обработка деействий пользователя
+     *
+     * @return - true при выходе пользователя из меню
+     */
+    public void execAction() {
+        int answer = this.input.ask("Введите пункт меню : ", this.allowedRange);
+        this.executeAction(Integer.valueOf(answer));
+    }
+
     /**
      * Класс обработки события выхода
      */
-    private class ExitProgram implements UserAction {
-        @Override
-        public void executeSelectedAction(Input input, Tracker tracker) {
-            exitProgramFlag = true;
+    public class ExitProgram extends BaseAction {
+
+        public ExitProgram(String name) {
+            super(name);
         }
 
         @Override
-        public String getActionTitle() {
-            return "6. Exit Program";
+        public void executeSelectedAction(Input input, Tracker tracker) {
+            exitProgramFlag = true;
         }
     }
 
     /**
      * Класс добавления элемента
      */
-    private class AddNewItem implements UserAction {
+    private class AddNewItem extends BaseAction {
+
+        public AddNewItem(String name) {
+            super(name);
+        }
+
         @Override
         public void executeSelectedAction(Input input, Tracker tracker) {
             System.out.println("------------ Добавление новой языки --------------");
@@ -102,17 +120,17 @@ public class MenuTracker {
             tracker.add(item);
             System.out.println("------------ Новая заявка с Id : " + item.getId() + "-----------");
         }
-
-        @Override
-        public String getActionTitle() {
-            return "0. Add new Item";
-        }
     }
 
     /**
      * Класс редактирования элемента
      */
-    private static class EditItem implements UserAction {
+    private static class EditItem extends BaseAction {
+
+        public EditItem(String name) {
+            super(name);
+        }
+
         @Override
         public void executeSelectedAction(Input input, Tracker tracker) {
             System.out.println("------------ Редактирование заявки --------------");
@@ -131,17 +149,16 @@ public class MenuTracker {
                 System.out.println("------------ Заявка с Id : " + itemId + " не найдена-----------");
             }
         }
-
-        @Override
-        public String getActionTitle() {
-            return "2. Edit item";
-        }
     }
 
     /**
      * Класс удаления элемента
      */
-    private class DeleteItem implements UserAction {
+    private class DeleteItem extends BaseAction {
+        public DeleteItem(String name) {
+            super(name);
+        }
+
         @Override
         public void executeSelectedAction(Input input, Tracker tracker) {
             System.out.println("------------ Удаление заявки --------------");
@@ -154,17 +171,16 @@ public class MenuTracker {
                 System.out.println("------------ Заявка с Id : " + itemId + " не найдена-----------");
             }
         }
-
-        @Override
-        public String getActionTitle() {
-            return "3. Delete item";
-        }
     }
 
     /**
      * Класс поиска элемента по Id
      */
-    private class FindItemById implements UserAction {
+    private class FindItemById extends BaseAction {
+        public FindItemById(String name) {
+            super(name);
+        }
+
         @Override
         public void executeSelectedAction(Input input, Tracker tracker) {
             System.out.println("------------ Поиск заявки по ID--------------");
@@ -176,17 +192,16 @@ public class MenuTracker {
                 System.out.println("------------ Заявка с Id : " + itemId + " не найдена-----------");
             }
         }
-
-        @Override
-        public String getActionTitle() {
-            return "4. Find item by Id";
-        }
     }
 
     /**
      * Класс поиска элемента по имени.
      */
-    private class FindItemByName implements UserAction {
+    private class FindItemByName extends BaseAction {
+        public FindItemByName(String name) {
+            super(name);
+        }
+
         @Override
         public void executeSelectedAction(Input input, Tracker tracker) {
             System.out.println("------------ Поиск заявки по имени--------------");
@@ -197,11 +212,6 @@ public class MenuTracker {
             } else {
                 System.out.println("------------ Заявки с именем : " + name + " не найдены-----------");
             }
-        }
-
-        @Override
-        public String getActionTitle() {
-            return "5. Find items by name";
         }
     }
 
