@@ -59,20 +59,16 @@ public class Board {
      */
     public boolean moveFigure(Cell source, Cell dest) throws ImpossibleMoveException, OccupiedWayException, FigureNotFoundException {
         Figure figure = getFigureFromBoard(source.getX(), source.getY());
-        try {
-            Cell[] figureWay = figure.wayOfFigure(source, dest);
-            //check the way to dest cell is free
-            for (int i = 1; i < figureWay.length; i++) {
-                if (this.figures[figureWay[i].getX()][figureWay[i].getY()] != null) {
-                    throw new OccupiedWayException("The way is occupied");
-                }
+        Cell[] figureWay = figure.wayOfFigure(source, dest);
+        //check the way to dest cell is free
+        for (int i = 1; i < figureWay.length; i++) {
+            if (this.figures[figureWay[i].getX()][figureWay[i].getY()] != null) {
+                throw new OccupiedWayException("The way is occupied");
             }
-            //create figure on dest cell (move the figure)
-            putFigureOnBoard(figure.copyFigure(dest));
-            this.figures[source.getX()][source.getY()] = null;
-            return true;
-        } catch (ImpossibleMoveException ime) {
-            throw ime;
         }
+        //create figure on dest cell (move the figure)
+        putFigureOnBoard(figure.copyFigure(dest));
+        this.figures[source.getX()][source.getY()] = null;
+        return true;
     }
 }
