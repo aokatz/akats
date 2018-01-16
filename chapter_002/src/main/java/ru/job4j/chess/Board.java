@@ -33,7 +33,7 @@ public class Board {
         if (!isCellEmpty(new Cell(x, y))) {
             return figures[x][y];
         } else {
-            throw new FigureNotFoundException("Figure not found");
+            throw new FigureNotFoundException("Figure not found on cell with coordinates: x=" + Integer.toString(x) + " y=" + Integer.toString(y));
         }
     }
 
@@ -58,30 +58,21 @@ public class Board {
      * @throws FigureNotFoundException
      */
     public boolean moveFigure(Cell source, Cell dest) throws ImpossibleMoveException, OccupiedWayException, FigureNotFoundException {
-        Figure figure;
-        Cell[] figureWay;
-        // check and get the figure on source cell
-        if (isCellEmpty(source)) {
-            throw new FigureNotFoundException("Figure not found on cell with coordinates: x=" + Integer.toString(source.getX()) + " y=" + Integer.toString(source.getX()));
-        } else {
-            figure = this.figures[source.getX()][source.getY()];
-        }
-        //check the figure ability to get to the dest cell and get the way to dest cell
+        Figure figure = getFigureFromBoard(source.getX(), source.getY());
         try {
-            figureWay = figure.wayOfFigure(source, dest);
+            Cell[] figureWay = figure.wayOfFigure(source, dest);
+            //check the way to dest cell is free
+            for (int i = 1; i < figureWay.length; i++) {
+                if (this.figures[figureWay[i].getX()][figureWay[i].getY()] != null) {
+                    throw new OccupiedWayException("The way is occupied");
+                }
+            }
+            //create figure on dest cell (move the figure)
+            putFigureOnBoard(figure.copyFigure(dest));
+            this.figures[source.getX()][source.getY()] = null;
+            return true;
         } catch (ImpossibleMoveException ime) {
             throw ime;
         }
-        //check the way to dest cell is free
-        for (int i = 1; i < figureWay.length; i++) {
-            if (this.figures[figureWay[i].getX()][figureWay[i].getY()] != null) {
-                throw new OccupiedWayException("The way is occupied");
-            }
-        }
-        //create figure on dest cell (move the figure)
-        putFigureOnBoard(figure.copyFigure(dest));
-        this.figures[source.getX()][source.getY()] = null;
-        return true;
     }
-
 }
