@@ -1,15 +1,32 @@
 package ru.job4j.collections;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
 /**
- * Преобразование списка в двумерный массив и обратно
+ * Манипуляции со списками
  *
  * @author AKats
  */
-public class CollectionToArray {
+public class ConvertList {
+    /**
+     * Конвертация списка массивов в список
+     *
+     * @param list - входящий список массивов с int
+     * @return - список int
+     */
+    public static List<Integer> convert(List<int[]> list) {
+        List<Integer> result = new ArrayList<>();
+        for (int[] array : list
+                ) {
+            for (int i = 0; i < array.length; i++) {
+                result.add(array[i]);
+            }
+        }
+        return result;
+    }
 
     /**
      * Массив в список
