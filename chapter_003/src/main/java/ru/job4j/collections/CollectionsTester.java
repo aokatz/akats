@@ -1,6 +1,5 @@
-package ru.job4j.listtester;
+package ru.job4j.collections;
 
-import java.nio.charset.Charset;
 import java.util.*;
 
 
