@@ -15,10 +15,11 @@ public class ConvertListTest {
      */
     @Test
     public void whenConvertListOfArraysThenGetList() {
+        ConvertList convertList = new ConvertList();
         List<int[]> listOfArrays = new ArrayList<>();
         listOfArrays.add(new int[]{1, 2});
         listOfArrays.add(new int[]{3, 4, 5, 6});
-        assertThat(ConvertList.convert(listOfArrays), is(new ArrayList<Integer>(Arrays.asList(1, 2, 3, 4, 5, 6))));
+        assertThat(convertList.convert(listOfArrays), is(new ArrayList<Integer>(Arrays.asList(1, 2, 3, 4, 5, 6))));
     }
 
     /**
@@ -26,9 +27,10 @@ public class ConvertListTest {
      */
     @Test
     public void whenListToArraythenGetArray() {
+        ConvertList convertList = new ConvertList();
         List<Integer> integerList = new ArrayList<Integer>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 0, 0));
         int[][] expectedArray = {{1, 2, 3}, {4, 5, 6}, {7, 0, 0}};
-        assertThat(ConvertList.toArray(integerList, 3), is(expectedArray));
+        assertThat(convertList.toArray(integerList, 3), is(expectedArray));
     }
 
     /**
@@ -36,8 +38,9 @@ public class ConvertListTest {
      */
     @Test
     public void whenArrayToListthenGetList() {
+        ConvertList convertList = new ConvertList();
         List<Integer> expectedList = new ArrayList<Integer>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 0, 0));
         int[][] intArray = {{1, 2, 3}, {4, 5, 6}, {7, 0, 0}};
-        assertThat(ConvertList.toList(intArray), is(expectedList));
+        assertThat(convertList.toList(intArray), is(expectedList));
     }
 }
