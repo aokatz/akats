@@ -7,6 +7,7 @@ import ru.job4j.tracker.models.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.Arrays;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
@@ -32,7 +33,7 @@ public class StartUITest {
     public void whenShowAllItems() {
         Tracker tracker = new Tracker();
         Item item = tracker.add(new Item("name", "description"));
-        Input input = new StubInput(new String[]{"1", "6"});
+        Input input = new StubInput(Arrays.asList("1", "6"));
         new StartUI(input, tracker).init();
         assertThat(
                 new String(out.toByteArray()),
@@ -100,7 +101,7 @@ public class StartUITest {
     @Test
     public void whenUserAddItemThenTrackerHasNewItemWithSameName() {
         Tracker tracker = new Tracker();     // создаём Tracker
-        Input input = new StubInput(new String[]{"0", "test name", "desc", "6"});   //создаём StubInput с последовательностью действий
+        Input input = new StubInput(Arrays.asList("0", "test name", "desc", "6"));   //создаём StubInput с последовательностью действий
         new StartUI(input, tracker).init();     //   создаём StartUI и вызываем метод init()
         assertThat(tracker.findAll()[0].getName(), is("test name")); // проверяем, что нулевой элемент массива в трекере содержит имя, введённое при эмуляции.
     }
@@ -115,7 +116,7 @@ public class StartUITest {
         //Напрямую добавляем заявку
         Item item = tracker.add(new Item());
         //создаём StubInput с последовательностью действий
-        Input input = new StubInput(new String[]{"2", item.getId(), "test name", "desc", "6"});
+        Input input = new StubInput(Arrays.asList("2", item.getId(), "test name", "desc", "6"));
         // создаём StartUI и вызываем метод init()
         new StartUI(input, tracker).init();
         // проверяем, что нулевой элемент массива в трекере содержит имя, введённое при эмуляции.
@@ -132,7 +133,7 @@ public class StartUITest {
         Item second = new Item("test2", "descriptiontest2", 2);
         tracker.add(first);
         tracker.add(second);
-        Input input = new StubInput(new String[]{"3", second.getId(), "6"});
+        Input input = new StubInput(Arrays.asList("3", second.getId(), "6"));
         new StartUI(input, tracker).init();
         assertThat(tracker.findAll()[0], is(first));
     }

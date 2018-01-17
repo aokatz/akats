@@ -2,8 +2,7 @@ package ru.job4j.tracker.start;
 
 import ru.job4j.tracker.models.Item;
 
-import java.util.Arrays;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Класс обработчик заявок
@@ -11,38 +10,28 @@ import java.util.Random;
  * @author AKats
  */
 public class Tracker {
-    private final Item[] items = new Item[100];
+    private final List<Item> items = new ArrayList<>();
     private int position = 0;
 
     /**
      * Поиск элемента по ID
      *
-     * @param id - id для поиска жлемента
+     * @param id - id для поиска элемента
      * @return - элемент с этим id
      */
     protected Item findById(String id) {
-        Item result = null;
-        for (Item item : this.items
-                ) {
-            if (item != null) {
-                if (item.getId().equals(id)) {
-                    result = item;
-                    break;
-                }
-            }
-        }
-        return result;
+        return this.items.stream().filter(item -> id.equals(item.getId())).findFirst().get();
     }
 
     /**
      * Добавление элемента в трекер
      *
      * @param item - элемент для добавления
-     * @return - добавленный элемент
+     * @return - id добавленного элемента
      */
     public Item add(Item item) {
-        item.setId(String.valueOf(position));
-        this.items[this.position++] = item;
+        item.setId(String.valueOf(position++));
+        this.items.add(item);
         return item;
     }
 
@@ -53,12 +42,7 @@ public class Tracker {
      * @param item - элемент на который менять
      */
     public void replace(String id, Item item) {
-        for (int i = 0; i < this.items.length; i++) {
-            if (this.items[i].getId().equals(id)) {
-                this.items[i] = item;
-                break;
-            }
-        }
+        Collections.replaceAll(this.items, this.findById(id), item);
     }
 
     /**
@@ -67,12 +51,7 @@ public class Tracker {
      * @param id - id удаляемого элемента
      */
     public void delete(String id) {
-        for (int i = 0; i < this.items.length; i++) {
-            if (this.items[i].getId().equals(id)) {
-                System.arraycopy(this.items, i + 1, this.items, i, this.items.length - 1 - i);
-                break;
-            }
-        }
+        this.items.remove(findById(id));
     }
 
     /**
@@ -81,9 +60,7 @@ public class Tracker {
      * @return массив всех заявок
      */
     public Item[] findAll() {
-        return Arrays.stream(this.items)
-                .filter(item -> item != null)
-                .toArray(Item[]::new);
+        return this.items.toArray(new Item[0]);
     }
 
     /**

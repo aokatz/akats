@@ -1,5 +1,7 @@
 package ru.job4j.tracker.start;
 
+import java.util.List;
+
 /**
  * Класс обертка поверх классов с интерфейсовм Input c валидацией введенных данных.
  */
@@ -17,7 +19,7 @@ public class ValidateInput implements Input {
     }
 
     @Override
-    public int ask(String question, int[] allowedRange) {
+    public int ask(String question, List<Integer> allowedRange) {
         boolean invalid = true;
         int result = -1;
         do {

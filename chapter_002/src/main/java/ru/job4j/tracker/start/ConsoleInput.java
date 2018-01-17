@@ -1,6 +1,7 @@
 package ru.job4j.tracker.start;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -17,9 +18,9 @@ public class ConsoleInput implements Input {
     }
 
     @Override
-    public int ask(String question, int[] allowedRange) {
+    public int ask(String question, List<Integer> allowedRange) {
         int key = Integer.valueOf(this.ask(question));
-        if (Arrays.stream(allowedRange).anyMatch(i -> i == key)) {
+        if (allowedRange.stream().anyMatch(i -> i == key)) {
             return key;
         } else {
             throw new MenuOutException("Out of menu range");

@@ -2,7 +2,9 @@ package ru.job4j.tracker.start;
 
 import ru.job4j.tracker.models.Item;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Класс отображения всех жлементов
@@ -28,8 +30,8 @@ class ShowAllItems extends BaseAction {
 public class MenuTracker {
     private Input input;
     private Tracker tracker;
-    private UserAction[] actions = new UserAction[7];
-    private int[] allowedRange = {0, 1, 2, 3, 4, 5, 6};
+    private List<UserAction> actions = new ArrayList<>();
+    private List<Integer> allowedRange = Arrays.asList(0, 1, 2, 3, 4, 5, 6);
     private boolean exitProgramFlag = false;
 
     public MenuTracker(Input input, Tracker tracker) {
@@ -46,13 +48,13 @@ public class MenuTracker {
      * Заполнение массива действий пользователяшо объектами-действиями внутренних классов
      */
     private void initMenu() {
-        this.actions[0] = this.new AddNewItem("0. Add new Item");
-        this.actions[1] = new ShowAllItems("1. Show all items");
-        this.actions[2] = new MenuTracker.EditItem("2. Edit item");
-        this.actions[3] = new DeleteItem("3. Delete item");
-        this.actions[4] = new FindItemById("4. Find item by Id");
-        this.actions[5] = new FindItemByName("5. Find items by name");
-        this.actions[6] = new ExitProgram("6. Exit Program");
+        actions.add(this.new AddNewItem("0. Add new Item"));
+        actions.add(new ShowAllItems("1. Show all items"));
+        actions.add(new MenuTracker.EditItem("2. Edit item"));
+        actions.add(new DeleteItem("3. Delete item"));
+        actions.add(new FindItemById("4. Find item by Id"));
+        actions.add(new FindItemByName("5. Find items by name"));
+        actions.add(new ExitProgram("6. Exit Program"));
     }
 
 
@@ -62,7 +64,7 @@ public class MenuTracker {
      * @param actionKey - ключь в массиве объектов-действий
      */
     private void executeAction(int actionKey) {
-        this.actions[actionKey].executeSelectedAction(this.input, this.tracker);
+        actions.get(actionKey).executeSelectedAction(this.input, this.tracker);
     }
 
     /**
