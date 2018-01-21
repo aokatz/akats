@@ -22,50 +22,6 @@ public class Bank {
         return usersAccounts;
     }
 
-    /**
-     * Get User by his passport
-     *
-     * @param passport - passport of User
-     * @return - User
-     * @throws UserNotFoundInBankException if there is no User with this passport
-     */
-    public User getUserByPassport(String passport) throws UserNotFoundInBankException {
-        User resultUser = null;
-        for (Map.Entry<User, List<Account>> entry : this.usersAccounts.entrySet()
-                ) {
-            if (entry.getKey().getPassport().equals(passport)) {
-                resultUser = entry.getKey();
-                break;
-            }
-        }
-        if (resultUser == null) {
-            throw new UserNotFoundInBankException("User with passport: " + passport + " not found");
-        }
-        return resultUser;
-    }
-
-    /**
-     * Get User Account from his accounts list
-     *
-     * @param allUserAccounts - Users accounts list
-     * @param requisite       - account number
-     * @return - Account
-     * @throws UserAccountNotFoundException is there is no Account with this requisite
-     */
-    public Account getUserAccountFromListByRequisite(List<Account> allUserAccounts, String requisite) throws UserAccountNotFoundException {
-        Account resultAccount = null;
-        for (Account account : allUserAccounts
-                ) {
-            if (account.getRequisites().equals(requisite)) {
-                resultAccount = account;
-                break;
-            }
-        }
-        if (resultAccount == null) {
-            throw new UserAccountNotFoundException("Account not found");
-        }
-        return resultAccount;
-    }
 
     /**
      * Add User
@@ -90,11 +46,9 @@ public class Bank {
      *
      * @param passport - Passport of User
      * @param account  - Account to add
-     * @throws UserNotFoundInBankException
      */
-    public void addAccountToUser(String passport, Account account) throws UserNotFoundInBankException {
-        User user = getUserByPassport(passport);
-        this.usersAccounts.get(user).add(account);
+    public void addAccountToUser(String passport, Account account) {
+        this.usersAccounts.get(new User("", passport)).add(account);
     }
 
     /**
@@ -102,11 +56,9 @@ public class Bank {
      *
      * @param passport - Users passport
      * @param account  - Account to delete
-     * @throws UserNotFoundInBankException
      */
-    public void deleteAccountFromUser(String passport, Account account) throws UserNotFoundInBankException {
-        User user = getUserByPassport(passport);
-        this.usersAccounts.get(user).remove(account);
+    public void deleteAccountFromUser(String passport, Account account) {
+        this.usersAccounts.get(new User("", passport)).remove(account);
     }
 
     /**
@@ -114,10 +66,9 @@ public class Bank {
      *
      * @param passport - Users passport
      * @return - List of accounts
-     * @throws UserNotFoundInBankException
      */
-    public List<Account> getAllUserAccounts(String passport) throws UserNotFoundInBankException {
-        return this.usersAccounts.get(getUserByPassport(passport));
+    public List<Account> getUserAccounts(String passport) {
+        return this.usersAccounts.get(new User("", passport));
     }
 
     /**
@@ -129,14 +80,19 @@ public class Bank {
      * @param destRequisite - Destination account number
      * @param amount        - amount to transfer
      * @return - false in case of insufficient amount or inability to find accounts numbers, else true
-     * @throws UserNotFoundInBankException
      */
-    public boolean transferMoney(String srcPassport, String srcRequisite, String destPassport, String destRequisite, double amount) throws UserNotFoundInBankException {
-        try {
-            return getUserAccountFromListByRequisite(getAllUserAccounts(srcPassport), srcRequisite).
-                    transferMoney(getUserAccountFromListByRequisite(getAllUserAccounts(destPassport), destRequisite), amount);
-        } catch (UserAccountNotFoundException e) {
-            return false;
+    public boolean transferMoney(String srcPassport, String srcRequisite, String destPassport, String destRequisite, double amount) {
+        List<Account> srcUserAccounts = this.usersAccounts.get(new User("", srcPassport));
+        List<Account> destUserAccounts = this.usersAccounts.get(new User("", destPassport));
+        boolean res = false;
+        if (srcUserAccounts != null
+                && destUserAccounts != null
+                && srcUserAccounts.indexOf(new Account(0.0, srcRequisite)) != -1
+                && destUserAccounts.indexOf(new Account(0.0, destRequisite)) != -1) {
+            Account srcAccount = srcUserAccounts.get(srcUserAccounts.indexOf(new Account(0.0, srcRequisite)));
+            Account destAccount = destUserAccounts.get(destUserAccounts.indexOf(new Account(0.0, destRequisite)));
+            res = srcAccount.transferMoney(destAccount, amount);
         }
+        return res;
     }
 }
