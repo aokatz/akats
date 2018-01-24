@@ -10,32 +10,32 @@ import java.util.NoSuchElementException;
  */
 public class TwoDimensionArraysIterator implements Iterator<Integer> {
 
-    private int[][] arrayToIterate;
+    private int[][] ints;
     int i = 0;
     int j = 0;
 
-    public TwoDimensionArraysIterator(int[][] arrayToIterate) {
-        this.arrayToIterate = arrayToIterate;
+    public TwoDimensionArraysIterator(int[][] ints) {
+        this.ints = ints;
     }
 
     @Override
     public boolean hasNext() {
-        return (i < arrayToIterate.length);
+        return (i < ints.length);
     }
 
     @Override
     public Integer next() {
-        if (hasNext()) {
-            Integer res = arrayToIterate[i][j];
-            if (j + 1 < arrayToIterate[i].length) {
+        if (!hasNext()) {
+            throw new NoSuchElementException();
+        } else {
+            Integer res = ints[i][j];
+            if (j + 1 < ints[i].length) {
                 j++;
             } else {
                 i++;
                 j = 0;
             }
             return res;
-        } else {
-            throw new NoSuchElementException();
         }
     }
 }
