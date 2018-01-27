@@ -1,45 +1,22 @@
 package ru.job4j.departments;
 
 
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Department class
+ *
  * @author AKats
  */
 public class Department implements Comparable<Department> {
-    private String departmentName;
-    private String serviceName;
-    private String divisionName;
+    private List<String> departments;
 
-    public String getDepartmentName() {
-        return departmentName;
+    public List<String> getDepartments() {
+        return departments;
     }
 
-    public String getServiceName() {
-        return serviceName;
-    }
-
-    public String getDivisionName() {
-        return divisionName;
-    }
-
-    public Department(String departmentName) {
-        this.departmentName = departmentName;
-        this.serviceName = "";
-        this.divisionName = "";
-    }
-
-    public Department(String departmentName, String serviceName) {
-        this.departmentName = departmentName;
-        this.serviceName = serviceName;
-        this.divisionName = "";
-    }
-
-    public Department(String departmantName, String serviceName, String divisionName) {
-        this.departmentName = departmantName;
-        this.serviceName = serviceName;
-        this.divisionName = divisionName;
+    public Department(List<String> departments) {
+        this.departments = departments;
     }
 
     @Override
@@ -51,38 +28,39 @@ public class Department implements Comparable<Department> {
             return false;
         }
         Department that = (Department) o;
-        return Objects.equals(departmentName, that.departmentName)
-                && Objects.equals(serviceName, that.serviceName)
-                && Objects.equals(divisionName, that.divisionName);
+        return (this.getDepartments().containsAll(that.getDepartments()) && that.getDepartments().containsAll(this.getDepartments()));
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(departmentName, serviceName, divisionName);
+        return Objects.hash(departments);
     }
 
     @Override
     public String toString() {
-        String result = departmentName;
-        if (this.serviceName != "") {
-            result += '\\' + serviceName;
+        String result = "";
+        for (String dep : this.departments
+                ) {
+            result += dep + "\\";
         }
-        if (this.divisionName != "") {
-            result += '\\' + divisionName;
-        }
-        return result;
+        return result.substring(0, result.length() - 1);
     }
 
+    @Override
     public int compareTo(Department o) {
-        if (this.departmentName.equals(o.getDepartmentName())) {
-            if (this.serviceName.equals(o.getServiceName())) {
-                return this.divisionName.compareTo(o.getDivisionName());
-            } else {
-                return this.serviceName.compareTo(o.getServiceName());
+        Iterator diter1 = this.getDepartments().listIterator();
+        Iterator diter2 = o.getDepartments().listIterator();
+        while (diter1.hasNext() && diter2.hasNext()) {
+            String d1 = (String) diter1.next();
+            String d2 = (String) diter2.next();
+            int compare = d1.compareTo(d2);
+            if (compare != 0) {
+                return compare;
             }
         }
-        return this.departmentName.compareTo(o.getDepartmentName());
+        return this.getDepartments().size() - o.getDepartments().size();
     }
+
 
 }

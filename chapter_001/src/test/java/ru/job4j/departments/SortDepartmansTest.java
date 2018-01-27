@@ -1,6 +1,9 @@
 package ru.job4j.departments;
 
 import org.junit.Test;
+
+import java.util.Arrays;
+
 import static org.junit.Assert.*;
 import static org.hamcrest.core.Is.is;
 

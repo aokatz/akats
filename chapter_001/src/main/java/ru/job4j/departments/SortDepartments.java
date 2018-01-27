@@ -1,5 +1,6 @@
 package ru.job4j.departments;
 
+import java.lang.annotation.Documented;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,7 +17,6 @@ public class SortDepartments {
     /**
      * Constructing new TreeSet of Department objects based on String array.
      * Each element of array is nested code in this form K1\\SK2\\SSK3 (numbers could be different)
-     * where K - is department, SK - is service unit, SSK - division.
      * It is allowed not to pass codes for the upper-level subdivision
      * for example {K2\\SK1\\SSK32} instead of {K2, K2\\SK1, K2\\SK1\\SSK32}
      * in thad case absent codes will be constructed anyway.
@@ -25,21 +25,20 @@ public class SortDepartments {
      */
     public SortDepartments(String[] departments) {
         Set<Department> result = new TreeSet<>();
-        Pattern departmentPattern = Pattern.compile("^(K\\d+)(?:\\\\)?(SK\\d+)?(?:\\\\)?(SSK\\d+)?$");
         for (String department : departments
                 ) {
-            Matcher departmentMatcher = departmentPattern.matcher(department);
-            if (departmentMatcher.matches()) {
-                String departmentName = departmentMatcher.group(1);
-                String serviceName = (departmentMatcher.group(2) == null) ? "" : departmentMatcher.group(2);
-                String divisionName = (departmentMatcher.group(3) == null) ? "" : departmentMatcher.group(3);
-                result.add(new Department(departmentName, serviceName, divisionName));
-                result.add(new Department(departmentName, serviceName));
-                result.add(new Department(departmentName));
+            List<String> depnames = new ArrayList<>(Arrays.asList(department.split("\\\\")));
+            result.add(new Department(new LinkedList<>(depnames)));
+            int size = depnames.size();
+            for (int i = 0; i < size - 1; i++) {
+                depnames.remove(size - i - 1);
+                result.add(new Department(new LinkedList<>(depnames)));
             }
         }
+
         this.departments = result;
     }
+
 
     /**
      * Get sorted array of department codes
@@ -54,7 +53,6 @@ public class SortDepartments {
         }
         return res;
     }
-
     /**
      * Get sorted array of department codes in descending
      *
@@ -65,14 +63,17 @@ public class SortDepartments {
         resList.sort(new Comparator<Department>() {
             @Override
             public int compare(Department o1, Department o2) {
-                if (o2.getDepartmentName().equals(o1.getDepartmentName())) {
-                    if (o2.getServiceName().equals(o1.getServiceName())) {
-                        return (o2.getDivisionName().length() == 0) ? 1 : o2.getDivisionName().compareTo(o1.getDivisionName());
-                    } else {
-                        return (o2.getServiceName().length() == 0) ? 1 : o2.getServiceName().compareTo(o1.getServiceName());
+                Iterator diter1 = o2.getDepartments().listIterator();
+                Iterator diter2 = o1.getDepartments().listIterator();
+                while (diter1.hasNext() && diter2.hasNext()) {
+                    String d1 = (String) diter1.next();
+                    String d2 = (String) diter2.next();
+                    int compare = d1.compareTo(d2);
+                    if (compare != 0) {
+                        return compare;
                     }
                 }
-                return o2.getDepartmentName().compareTo(o1.getDepartmentName());
+                return o1.getDepartments().size() - o2.getDepartments().size();
             }
         });
         String[] res = new String[this.departments.size()];
