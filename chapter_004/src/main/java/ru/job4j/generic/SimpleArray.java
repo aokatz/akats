@@ -1,6 +1,7 @@
 package ru.job4j.generic;
 
 import java.util.Arrays;
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 
 
@@ -11,11 +12,12 @@ import java.util.Iterator;
  * @author AKats
  */
 public class SimpleArray<T> implements Iterable<T> {
+    private int modCount = 0;
     private int index = 0;
     private Object[] array;
 
     public SimpleArray() {
-        array = new Object[0];
+        array = new Object[10];
     }
 
     public Object[] getArray() {
@@ -24,7 +26,8 @@ public class SimpleArray<T> implements Iterable<T> {
 
     private void checkArrayLength() {
         if (this.index + 1 > this.array.length) {
-            this.array = Arrays.copyOf(this.array, this.array.length + 1);
+            this.array = Arrays.copyOf(this.array, this.array.length * 2);
+            this.modCount++;
         }
     }
 
@@ -58,6 +61,7 @@ public class SimpleArray<T> implements Iterable<T> {
     public Iterator<T> iterator() {
         return new Iterator<T>() {
             private int current = 0;
+            private int expectedModCount = modCount;
 
             @Override
             public boolean hasNext() {
@@ -66,6 +70,9 @@ public class SimpleArray<T> implements Iterable<T> {
 
             @Override
             public T next() {
+                if (expectedModCount != modCount) {
+                    throw new ConcurrentModificationException();
+                }
                 return (T) array[current++];
             }
         };
