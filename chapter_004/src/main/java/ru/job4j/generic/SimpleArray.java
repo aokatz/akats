@@ -3,6 +3,7 @@ package ru.job4j.generic;
 import java.util.Arrays;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 
 /**
@@ -17,7 +18,7 @@ public class SimpleArray<T> implements Iterable<T> {
     private Object[] array;
 
     public SimpleArray() {
-        array = new Object[10];
+        array = new Object[5];
     }
 
     public Object[] getArray() {
@@ -34,10 +35,12 @@ public class SimpleArray<T> implements Iterable<T> {
     public void add(T model) {
         checkArrayLength();
         this.array[index++] = model;
+        this.modCount++;
     }
 
     public void set(int index, T model) {
         this.array[index] = model;
+        this.modCount++;
     }
 
     public void delete(int index) {
@@ -70,6 +73,9 @@ public class SimpleArray<T> implements Iterable<T> {
 
             @Override
             public T next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
                 if (expectedModCount != modCount) {
                     throw new ConcurrentModificationException();
                 }
