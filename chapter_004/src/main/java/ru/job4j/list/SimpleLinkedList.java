@@ -1,7 +1,5 @@
 package ru.job4j.list;
 
-import ru.job4j.generic.SimpleArray;
-
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -14,7 +12,7 @@ import java.util.NoSuchElementException;
  */
 public class SimpleLinkedList<T> implements Iterable<T> {
 
-    private class Node<E> {
+    class Node<E> {
         E elem;
         private Node<E> next;
         private Node<E> prev;
@@ -31,7 +29,11 @@ public class SimpleLinkedList<T> implements Iterable<T> {
     private Node<T> last = null;
 
     public void add(T elem) {
+        Node l = this.last;
         Node<T> newNode = new Node<>(elem, null, this.last);
+        if (l != null) {
+            l.next = newNode;
+        }
         this.last = newNode;
         this.size++;
         this.modCount++;
@@ -46,6 +48,38 @@ public class SimpleLinkedList<T> implements Iterable<T> {
             x = x.prev;
         }
         return x.elem;
+    }
+
+    public void del(int index) {
+        if (!(index >= 0 && index <= size)) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+        }
+        Node<T> x = this.last;
+        for (int i = this.size - 1; i > index; i--) {
+            x = x.prev;
+        }
+        final Node<T> next = x.next;
+        final Node<T> prev = x.prev;
+
+        if (prev == null) {
+            if (x.next != null) {
+                x.next.prev = null;
+            }
+        } else {
+            prev.next = next;
+            x.prev = null;
+        }
+
+        if (next == null) {
+            last = prev;
+        } else {
+            next.prev = prev;
+            x.next = null;
+        }
+
+        x.elem = null;
+        size--;
+        modCount++;
     }
 
     public Object[] toArray() {

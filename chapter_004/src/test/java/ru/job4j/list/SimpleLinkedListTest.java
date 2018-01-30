@@ -26,4 +26,11 @@ public class SimpleLinkedListTest {
         assertThat(simpleLinkedList.get(0), is(1));
     }
 
+
+    @Test
+    public void whenDeleteElementShouldDelete() {
+        simpleLinkedList.del(0);
+        assertThat(simpleLinkedList.toArray(), is(new Integer[]{2, 3}));
+    }
+
 }

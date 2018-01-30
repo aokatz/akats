@@ -20,7 +20,8 @@ public class UserStoreTest {
         User user = new User("10");
         userStore.add(new User("1"));
         userStore.add(new User("2"));
-        assertThat(userStore.replace("1", user), is(true));
+        userStore.replace("1", user);
+        assertThat(userStore.findById("10"), is(user));
     }
 
     @Test

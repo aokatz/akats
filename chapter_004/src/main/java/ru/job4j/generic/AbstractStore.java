@@ -21,10 +21,13 @@ public abstract class AbstractStore<T extends Base> implements Store<T> {
         for (T i : store
                 ) {
             if (i.getId().equals(id)) {
-                store.set(index, model);
                 res = true;
+                break;
             }
             ++index;
+        }
+        if (res) {
+            store.set(index, model);
         }
         return res;
     }
