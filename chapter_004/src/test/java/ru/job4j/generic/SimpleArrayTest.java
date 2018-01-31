@@ -21,19 +21,19 @@ public class SimpleArrayTest {
 
     @Test
     public void whenAddElementShouldAdd() {
-        assertThat(simpleArray.getArray(), is(new Integer[]{1, 2, 3, 4, 5}));
+        assertThat(simpleArray.get(4), is(5));
     }
 
     @Test
     public void whenSetElementShouldReplaceIt() {
         simpleArray.set(3, 10);
-        assertThat(simpleArray.getArray(), is(new Integer[]{1, 2, 3, 10, 5}));
+        assertThat(simpleArray.get(3), is(10));
     }
 
     @Test
     public void whenDeleteShouldDelete() {
         simpleArray.delete(3);
-        assertThat(simpleArray.getArray(), is(new Integer[]{1, 2, 3, 5}));
+        assertThat(simpleArray.get(3), is(5));
     }
 
     @Test
@@ -44,8 +44,8 @@ public class SimpleArrayTest {
     @Test
     public void shouldReturnElementsUsingIterator() {
         int i = 0;
-        for (Integer elem: simpleArray
-             ) {
+        for (Integer elem : simpleArray
+                ) {
             assertThat(elem, is(simpleArray.get(i++)));
         }
     }

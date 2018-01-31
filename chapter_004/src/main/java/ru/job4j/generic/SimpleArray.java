@@ -21,10 +21,6 @@ public class SimpleArray<T> implements Iterable<T> {
         array = new Object[5];
     }
 
-    public Object[] getArray() {
-        return array;
-    }
-
     private void checkArrayLength() {
         if (this.index + 1 > this.array.length) {
             this.array = Arrays.copyOf(this.array, this.array.length * 2);
