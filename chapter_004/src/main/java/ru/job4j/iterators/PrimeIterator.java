@@ -11,18 +11,11 @@ import java.util.NoSuchElementException;
 public class PrimeIterator implements Iterator {
 
     private final int[] numbers;
-    private int next = -1;
-    private boolean hasNextPrime = false;
+    private int next;
+
 
     public PrimeIterator(int[] numbers) {
         this.numbers = numbers;
-        for (int i = 0; i < numbers.length; i++) {
-            if (isPrime(numbers[i])) {
-                this.next = i;
-                this.hasNextPrime = true;
-                break;
-            }
-        }
     }
 
     private boolean isPrime(int n) {
@@ -44,24 +37,22 @@ public class PrimeIterator implements Iterator {
 
     @Override
     public boolean hasNext() {
-        return this.hasNextPrime;
+        boolean res = false;
+        for (int i = this.next; i < this.numbers.length; i++) {
+            if (isPrime(this.numbers[i])) {
+                this.next = i;
+                res = true;
+                break;
+            }
+        }
+        return res;
     }
 
     @Override
     public Object next() {
-        if (hasNext()) {
-            int res = this.numbers[next];
-            this.hasNextPrime = false;
-            for (int i = this.next + 1; i < this.numbers.length; i++) {
-                if (isPrime(numbers[i])) {
-                    this.next = i;
-                    this.hasNextPrime = true;
-                    break;
-                }
-            }
-            return res;
-        } else {
+        if (!hasNext()) {
             throw new NoSuchElementException();
         }
+        return this.numbers[this.next++];
     }
 }
