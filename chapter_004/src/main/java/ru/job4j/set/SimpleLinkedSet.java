@@ -10,7 +10,7 @@ import java.util.Iterator;
  *
  * @param <T> - type of elements in set
  */
-public class SimpleLinkedSet<T> implements Iterable {
+public class SimpleLinkedSet<T> implements Iterable<T> {
     private SimpleLinkedList<T> set = new SimpleLinkedList<>();
 
     private boolean contains(T e) {

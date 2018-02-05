@@ -1,16 +1,15 @@
 package ru.job4j.map;
 
 
-
 import java.util.Arrays;
 
 /**
  * SimpleHashMap class. Hash set based on array.
+ *
  * @param <K> - key type
  * @param <V> - value type
  */
 public class SimpleHashMap<K, V> {
-    private int tableSize;
     private int elementsCount = 0;
     private Node<K, V>[] hashTable;
 
@@ -33,7 +32,6 @@ public class SimpleHashMap<K, V> {
     }
 
     public SimpleHashMap(int tableSize) {
-        this.tableSize = tableSize;
         hashTable = new Node[tableSize];
     }
 
@@ -42,18 +40,21 @@ public class SimpleHashMap<K, V> {
     }
 
     private void resizeTable() {
-        Node<K, V>[] oldHashTable = Arrays.copyOf(this.hashTable, this.hashTable.length);
-        this.tableSize *= 2;
-        this.hashTable = new Node[this.tableSize];
+        Node<K, V>[] oldHashTable = this.hashTable;
+        this.hashTable = new Node[this.hashTable.length * 2];
         this.elementsCount = 0;
         for (Node<K, V> elem : oldHashTable) {
             putElementInTable(elem.getKey(), elem.getValue());
         }
     }
 
+    private int getHash(Object o) {
+        return (o.hashCode() ^ 2) % this.hashTable.length;
+    }
+
     private boolean putElementInTable(K key, V value) {
         boolean res = false;
-        int elementHash = key.hashCode() % this.tableSize;
+        int elementHash = getHash(key);
         if (this.hashTable[elementHash] == null) {
             this.elementsCount++;
             this.hashTable[elementHash] = new Node(key, value);
@@ -63,7 +64,7 @@ public class SimpleHashMap<K, V> {
     }
 
     public boolean insert(K key, V value) {
-        if (this.elementsCount == this.tableSize) {
+        if (this.elementsCount == this.hashTable.length) {
             this.resizeTable();
         }
         this.putElementInTable(key, value);
@@ -71,17 +72,17 @@ public class SimpleHashMap<K, V> {
     }
 
     public boolean contains(K e) {
-        return this.hashTable[e.hashCode() % this.tableSize] != null;
+        return this.hashTable[getHash(e)] != null;
     }
 
     public V get(K key) {
-        return this.hashTable[key.hashCode() % this.tableSize].getValue();
+        return this.hashTable[getHash(key)].getValue();
     }
 
     public boolean delete(K e) {
         boolean res = this.contains(e);
         if (res) {
-            this.hashTable[e.hashCode() % this.tableSize] = null;
+            this.hashTable[getHash(e)] = null;
             this.elementsCount--;
         }
         return res;
