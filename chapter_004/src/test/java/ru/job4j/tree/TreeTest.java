@@ -29,4 +29,18 @@ public class TreeTest {
                 is(false)
         );
     }
+
+    @Test
+    public void whenIsBoolean() {
+        Tree<Integer> tree = new Tree<>(1);
+        tree.add(1, 2);
+        tree.add(1, 3);
+        tree.add(2, 4);
+        tree.add(2, 5);
+        tree.add(3, 9);
+        tree.add(5, 6);
+        tree.add(5, 7);
+        tree.add(5, 8);
+        System.out.println(tree.isBinary());
+    }
 }
