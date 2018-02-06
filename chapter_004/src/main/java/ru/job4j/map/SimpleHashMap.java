@@ -49,7 +49,7 @@ public class SimpleHashMap<K, V> {
     }
 
     private int getHash(Object o) {
-        return (o.hashCode() ^ 2) % this.hashTable.length;
+        return o.hashCode() & (this.hashTable.length - 1);
     }
 
     private boolean putElementInTable(K key, V value) {
