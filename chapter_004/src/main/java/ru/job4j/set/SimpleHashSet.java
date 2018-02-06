@@ -8,12 +8,10 @@ import java.util.Arrays;
  * @param <T> - type of elements in set
  */
 public class SimpleHashSet<T> {
-    private int tableSize;
     private int elementsCount = 0;
     private Object[] hashTable;
 
     public SimpleHashSet(int tableSize) {
-        this.tableSize = tableSize;
         hashTable = new Object[tableSize];
     }
 
@@ -21,10 +19,13 @@ public class SimpleHashSet<T> {
         this(128);
     }
 
+    private int getHash(Object o) {
+        return (o.hashCode() ^ 2) % this.hashTable.length;
+    }
+
     private void resizeTable() {
-        Object[] oldHashTable = Arrays.copyOf(this.hashTable, this.hashTable.length);
-        this.tableSize *= 2;
-        this.hashTable = new Object[this.tableSize];
+        Object[] oldHashTable = this.hashTable;
+        this.hashTable = new Object[this.hashTable.length * 2];
         this.elementsCount = 0;
         for (Object elem : oldHashTable) {
             putElementInTable((T) elem);
@@ -32,7 +33,7 @@ public class SimpleHashSet<T> {
     }
 
     private void putElementInTable(T e) {
-        int elementHash = e.hashCode() % this.tableSize;
+        int elementHash = getHash(e);
         if (this.hashTable[elementHash] == null) {
             this.elementsCount++;
         }
@@ -40,7 +41,7 @@ public class SimpleHashSet<T> {
     }
 
     public boolean add(T e) {
-        if (this.elementsCount == this.tableSize) {
+        if (this.elementsCount == this.hashTable.length) {
             this.resizeTable();
         }
         this.putElementInTable(e);
@@ -48,13 +49,13 @@ public class SimpleHashSet<T> {
     }
 
     public boolean contains(T e) {
-        return this.hashTable[e.hashCode() % this.tableSize] != null;
+        return this.hashTable[getHash(e)] != null;
     }
 
     public boolean remove(T e) {
         boolean res = this.contains(e);
         if (res) {
-            this.hashTable[e.hashCode() % this.tableSize] = null;
+            this.hashTable[getHash(e)] = null;
             this.elementsCount--;
         }
         return res;
