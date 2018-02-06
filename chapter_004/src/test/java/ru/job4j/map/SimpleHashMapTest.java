@@ -9,7 +9,7 @@ public class SimpleHashMapTest {
 
     @Test
     public void whenAddElementShouldAdd() {
-        SimpleHashMap<Integer, String> hashMap = new SimpleHashMap<>(3);
+        SimpleHashMap<Integer, String> hashMap = new SimpleHashMap<>(4);
         for (int i = 0; i < 5; i++) {
             hashMap.insert(i, "i=" + i);
         }
