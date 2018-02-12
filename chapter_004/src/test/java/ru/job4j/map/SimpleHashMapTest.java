@@ -9,7 +9,7 @@ public class SimpleHashMapTest {
 
     @Test
     public void whenAddElementShouldAdd() {
-        SimpleHashMap<Integer, String> hashMap = new SimpleHashMap<>(4);
+        SimpleHashMap<Integer, String> hashMap = new SimpleHashMap<>();
         for (int i = 0; i < 5; i++) {
             hashMap.insert(i, "i=" + i);
         }
@@ -18,7 +18,7 @@ public class SimpleHashMapTest {
 
     @Test
     public void whenRemove() {
-        SimpleHashMap<Integer, String> hashMap = new SimpleHashMap<>(3);
+        SimpleHashMap<Integer, String> hashMap = new SimpleHashMap<>();
         for (int i = 0; i < 5; i++) {
             hashMap.insert(i, "i=" + i);
         }

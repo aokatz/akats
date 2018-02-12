@@ -31,12 +31,8 @@ public class SimpleHashMap<K, V> {
         }
     }
 
-    public SimpleHashMap(int tableSize) {
-        hashTable = new Node[tableSize];
-    }
-
     public SimpleHashMap() {
-        this(128);
+        hashTable = new Node[128];
     }
 
     private void resizeTable() {
