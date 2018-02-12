@@ -11,12 +11,8 @@ public class SimpleHashSet<T> {
     private int elementsCount = 0;
     private Object[] hashTable;
 
-    public SimpleHashSet(int tableSize) {
-        hashTable = new Object[tableSize];
-    }
-
     public SimpleHashSet() {
-        this(128);
+        hashTable = new Object[128];
     }
 
     private int getHash(Object o) {

@@ -9,7 +9,7 @@ public class SimpleHashSetTest {
 
     @Test
     public void whenAddElementShouldAdd() {
-        SimpleHashSet<Integer> hashSet = new SimpleHashSet<>(3);
+        SimpleHashSet<Integer> hashSet = new SimpleHashSet<>();
         for (int i = 0; i < 5; i++) {
             hashSet.add(i);
         }
@@ -18,7 +18,7 @@ public class SimpleHashSetTest {
 
     @Test
     public void whenRemove() {
-        SimpleHashSet<Integer> hashSet = new SimpleHashSet<>(3);
+        SimpleHashSet<Integer> hashSet = new SimpleHashSet<>();
         for (int i = 0; i < 5; i++) {
             hashSet.add(i);
         }
