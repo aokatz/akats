@@ -1,9 +1,6 @@
 package ru.job4j.tree;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Optional;
-import java.util.Queue;
+import java.util.*;
 
 public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
 
@@ -17,7 +14,10 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
     public boolean add(E parent, E child) {
         Optional<Node<E>> node = this.findBy(parent);
         if (node.isPresent()) {
-            node.get().add(new Node<>(child));
+            Node<E> childNode = new Node<>(child);
+            if (!node.get().leaves().contains(childNode)) {
+                node.get().add(childNode);
+            }
             return true;
         }
         return false;
@@ -43,7 +43,21 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
 
     @Override
     public Iterator<E> iterator() {
-        return null;
+        return new Iterator<E>() {
+            Queue<Node<E>> elements = new LinkedList<>(Arrays.asList(root));
+
+            @Override
+            public boolean hasNext() {
+                return !elements.isEmpty();
+            }
+
+            @Override
+            public E next() {
+                Node<E> res = this.elements.poll();
+                elements.addAll(res.leaves());
+                return res.getValue();
+            }
+        };
     }
 
     private boolean isBinary(Node<E> node) {
