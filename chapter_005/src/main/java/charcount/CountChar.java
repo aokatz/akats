@@ -53,11 +53,20 @@ public class CountChar {
         Thread wordsThread = new Thread(new CountWordsThread());
         spacesThread.start();
         wordsThread.start();
+        try {
+            spacesThread.join();
+            wordsThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public static void main(String[] args) {
+        System.out.println("start");
         CountChar countChar = new CountChar("123 sdf sdaf");
         countChar.count();
+        System.out.println("stop");
     }
 
 }
