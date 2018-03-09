@@ -12,12 +12,10 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
 
     @Override
     public boolean add(E parent, E child) {
-        Optional<Node<E>> node = this.findBy(parent);
-        if (node.isPresent()) {
-            Node<E> childNode = new Node<>(child);
-            if (!node.get().leaves().contains(childNode)) {
-                node.get().add(childNode);
-            }
+        Optional<Node<E>> parentNode = this.findBy(parent);
+        Optional<Node<E>> childNode = this.findBy(child);
+        if (parentNode.isPresent() && !childNode.isPresent()) {
+            parentNode.get().add(new Node<>(child));
             return true;
         }
         return false;
