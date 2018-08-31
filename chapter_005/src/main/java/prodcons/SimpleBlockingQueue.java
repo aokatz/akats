@@ -14,6 +14,10 @@ public class SimpleBlockingQueue<T> {
     private final Object lock = new Object();
     private final int LIMIT = 3;
 
+    public boolean isEmpty() {
+        return queue.isEmpty();
+    }
+
     public void offer(T value) {
         synchronized (this.lock) {
             while (queue.size() == LIMIT) {
