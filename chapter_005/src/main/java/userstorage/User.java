@@ -41,14 +41,6 @@ public class User {
         return Objects.hash(id, amount);
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public int getAmount() {
         return amount;
     }
