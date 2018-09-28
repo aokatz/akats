@@ -43,7 +43,7 @@ public class ThreadInterrupt {
     }
 
     public static void main(String[] args) {
-        ThreadInterrupt threadInterrupt = new ThreadInterrupt(1, "sdfsdf sdfs 123");
+        ThreadInterrupt threadInterrupt = new ThreadInterrupt(1, "sdfsdf sdfs 123 123123da asdasd as asd asd asd a");
         threadInterrupt.count();
     }
 

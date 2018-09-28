@@ -12,16 +12,16 @@ public class RectangleMove implements Runnable {
     @Override
     public void run() {
         int deltaX = 5;
-        while (true) {
-            if (this.rect.getX() < 5 || this.rect.getX() > 295) {
-                deltaX *= -1;
-            }
-            this.rect.setX(this.rect.getX() + deltaX);
-            try {
+        try {
+            while (!Thread.interrupted()) {
+                if (this.rect.getX() < 5 || this.rect.getX() > 295) {
+                    deltaX *= -1;
+                }
+                this.rect.setX(this.rect.getX() + deltaX);
                 Thread.sleep(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }
