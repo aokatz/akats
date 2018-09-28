@@ -13,11 +13,8 @@ public class RectangleMove implements Runnable {
     public void run() {
         int deltaX = 5;
         while (true) {
-            if (this.rect.getX() == 300) {
-                deltaX = -5;
-            }
-            if (this.rect.getX() == 0) {
-                deltaX = 5;
+            if (this.rect.getX() < 5 || this.rect.getX() > 295) {
+                deltaX *= -1;
             }
             this.rect.setX(this.rect.getX() + deltaX);
             try {
