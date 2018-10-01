@@ -10,7 +10,7 @@ import java.util.Queue;
 public class SimpleBlockingQueue<T> {
 
     @GuardedBy("this")
-    private Queue<T> queue = new LinkedList<>();
+    private final Queue<T> queue = new LinkedList<>();
     private final Object lock = new Object();
     private final int LIMIT = 3;
 
@@ -33,14 +33,12 @@ public class SimpleBlockingQueue<T> {
     }
 
     public T poll() throws InterruptedException {
-        T retvalue;
         synchronized (this.lock) {
             while (queue.isEmpty()) {
                 lock.wait();
             }
-            retvalue = queue.poll();
             lock.notifyAll();
-            return retvalue;
+            return queue.poll();
         }
     }
 }
