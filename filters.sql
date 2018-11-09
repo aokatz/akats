@@ -18,10 +18,6 @@ select count(*) from product where type_id=2
 select * from product p inner join type t on p.type_id = t.id
 where t.name in ('СЫР', 'МОЛОКО')
 
-
-select p.type_id, count(p.id) from product p
-group by p.type_id
-
 --7
 select t.name, count(p.id) from product p inner join type t on p.type_id = t.id
 group by t.name having count(p.id)<10
