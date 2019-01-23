@@ -58,8 +58,7 @@ CREATE TABLE public."RolePermission"
 (
   "RoleID" integer NOT NULL,
   "PermissionID" integer NOT NULL,
-  CONSTRAINT "RolePerm_pkey" PRIMARY KEY ("RoleID", "PermissionID")
-    INCLUDE("RoleID", "PermissionID"),
+  CONSTRAINT "RolePerm_pkey" PRIMARY KEY ("RoleID", "PermissionID"),
   CONSTRAINT "Permission_fkey" FOREIGN KEY ("PermissionID")
   REFERENCES public."Permission" ("PermissionID") MATCH SIMPLE
   ON UPDATE NO ACTION
